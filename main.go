@@ -81,7 +81,7 @@ func (c *Conf) getSnmp() {
 		case s.Counter32:
 			fmt.Println(variable.Value)
 		default:
-			fmt.Println(variable.Value)
+			fmt.Println(variable)
 		}
 	}
 }

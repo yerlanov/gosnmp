@@ -61,7 +61,7 @@ func (c *Conf) getSnmp() {
 		"SNMPv2-MIB::sysDescr.0",
 		"IF-MIB::ifOperStatus.9",
 		"EtherLike-MIB::dot3StatsFCSErrors.9",
-		"LLDP-MIB::lldpLocChassisId.9"}
+		"LLDP-MIB::lldpLocChassisId.0"}
 	oids := c.convertMibToOid(mibs)
 	result, err := params.Get(oids)
 	if err != nil {

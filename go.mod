@@ -1,0 +1,10 @@
+module test
+
+go 1.16
+
+require (
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/gosnmp/gosnmp v1.29.0
+	github.com/hallidave/mibtool v0.2.0
+	github.com/kelseyhightower/envconfig v1.4.0
+)

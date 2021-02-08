@@ -57,7 +57,10 @@ func (c *Conf) getSnmp() {
 
 	defer params.Conn.Close()
 
-	mibs := []string{"SNMPv2-MIB::sysUpTime.0", "SNMPv2-MIB::sysDescr.0", "IF-MIB::ifOperStatus.9"}
+	mibs := []string{"SNMPv2-MIB::sysUpTime.0",
+		"SNMPv2-MIB::sysDescr.0",
+		"IF-MIB::ifOperStatus.9",
+		"EhterLike-MIB::dot3StatsFCSErrors.9"}
 	oids := c.convertMibToOid(mibs)
 	result, err := params.Get(oids)
 	if err != nil {
@@ -74,6 +77,8 @@ func (c *Conf) getSnmp() {
 		case s.Integer:
 			res := util.TranslateIfOperStatus(variable.Value)
 			fmt.Println(res)
+		case s.Counter32:
+			fmt.Println(variable.Value)
 		default:
 			fmt.Println(variable.Value)
 		}
@@ -85,7 +90,7 @@ func (c *Conf) convertMibToOid(mibs []string) []string {
 	mib.Debug = true
 	var oids []string
 
-	err := mib.LoadModules("IF-MIB", "SNMPv2-MIB")
+	err := mib.LoadModules("IF-MIB", "SNMPv2-MIB", "EhterLike-MIB")
 	if err != nil {
 		log.Fatal(err)
 	}

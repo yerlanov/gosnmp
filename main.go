@@ -60,7 +60,8 @@ func (c *Conf) getSnmp() {
 	mibs := []string{"SNMPv2-MIB::sysUpTime.0",
 		"SNMPv2-MIB::sysDescr.0",
 		"IF-MIB::ifOperStatus.9",
-		"EtherLike-MIB::dot3StatsFCSErrors.9"}
+		"EtherLike-MIB::dot3StatsFCSErrors.9",
+		"LLDP-MIB::lldpLocChassisId.9"}
 	oids := c.convertMibToOid(mibs)
 	result, err := params.Get(oids)
 	if err != nil {
@@ -90,7 +91,7 @@ func (c *Conf) convertMibToOid(mibs []string) []string {
 	mib.Debug = true
 	var oids []string
 
-	err := mib.LoadModules("IF-MIB", "SNMPv2-MIB", "EtherLike-MIB")
+	err := mib.LoadModules("IF-MIB", "SNMPv2-MIB", "EtherLike-MIB", "LLDP-MIB")
 	if err != nil {
 		log.Fatal(err)
 	}

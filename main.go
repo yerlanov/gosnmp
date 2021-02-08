@@ -72,6 +72,7 @@ func (c *Conf) getSnmp() {
 		switch variable.Type {
 		case s.OctetString:
 			bytes := variable.Value.([]byte)
+			fmt.Println(variable)
 			fmt.Println(string(bytes))
 		case s.TimeTicks:
 			fmt.Println(variable.Value)

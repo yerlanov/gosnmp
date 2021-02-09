@@ -1,6 +1,7 @@
 package model
 
 import (
+	"strconv"
 	"test/util"
 )
 
@@ -17,12 +18,12 @@ type OperStatus struct {
 
 func MapOperStatusToStruct(tkd []interface{}, agu []interface{}) OperStatus {
 	return OperStatus{
-		UpTimeTkd:        tkd[0].(string),
+		UpTimeTkd:        strconv.Itoa(int(tkd[0].(uint32))),
 		ModelTkd:         util.ConvertOctetStringToString(tkd[1]),
 		StatusClientPort: util.TranslateIfOperStatus(tkd[2]),
 		ErrorClientPort:  tkd[3].(string),
 		MacAddressTkd:    util.ConvertDecimalToHexDecimal(tkd[4]),
-		UpTimeAgu:        agu[0].(string),
+		UpTimeAgu:        strconv.Itoa(int(agu[0].(uint32))),
 		ModelAgu:         agu[1].(string),
 		MacAddressAgu:    util.ConvertDecimalToHexDecimal(agu[3]),
 	}

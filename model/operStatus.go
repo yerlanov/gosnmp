@@ -24,7 +24,7 @@ func MapOperStatusToStruct(tkd []interface{}, agu []interface{}) OperStatus {
 		ErrorClientPort:  strconv.Itoa(int(tkd[3].(uint))),
 		MacAddressTkd:    util.ConvertDecimalToHexDecimal(tkd[4]),
 		UpTimeAgu:        strconv.Itoa(int(agu[0].(uint32))),
-		ModelAgu:         agu[1].(string),
+		ModelAgu:         util.ConvertOctetStringToString(agu[1]),
 		MacAddressAgu:    util.ConvertDecimalToHexDecimal(agu[3]),
 	}
 }

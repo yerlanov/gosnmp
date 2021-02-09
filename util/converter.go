@@ -1,10 +1,7 @@
 package util
 
 import (
-	"encoding/json"
 	"fmt"
-	"log"
-	"strings"
 )
 
 func TranslateIfOperStatus(in interface{}) string {
@@ -30,16 +27,11 @@ func TranslateIfOperStatus(in interface{}) string {
 
 func ConvertDecimalToHexDecimal(in interface{}) string {
 	var (
-		macs []string
-		mac  string
-		s    = in.(string)
+		macs     []string
+		mac      string
+		decimals = in.([]uint8)
 	)
-	s = strings.ReplaceAll(s, " ", ",")
-	var decimals []int
-	err := json.Unmarshal([]byte(s), &decimals)
-	if err != nil {
-		log.Fatalf(err.Error())
-	}
+
 	for i, _ := range decimals {
 		if decimals[i] == 0 {
 			macs = append(macs, "00")

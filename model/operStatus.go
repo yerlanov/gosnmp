@@ -25,6 +25,6 @@ func MapOperStatusToStruct(tkd []interface{}, agu []interface{}) OperStatus {
 		MacAddressTkd:    util.ConvertDecimalToHexDecimal(tkd[4]),
 		UpTimeAgu:        strconv.Itoa(int(agu[0].(uint32))),
 		ModelAgu:         util.ConvertOctetStringToString(agu[1]),
-		MacAddressAgu:    util.ConvertDecimalToHexDecimal(agu[3]),
+		MacAddressAgu:    util.ConvertDecimalToHexDecimal(agu[2]),
 	}
 }

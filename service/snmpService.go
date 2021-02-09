@@ -4,14 +4,13 @@ import (
 	"fmt"
 	s "github.com/gosnmp/gosnmp"
 	"github.com/hallidave/mibtool/smi"
-	"log"
 	"strconv"
 	"test/config"
 	"test/model"
 	"time"
 )
 
-func GetOperStatus() {
+func GetOperStatusService(login string) (model.OperStatus, error) {
 	var (
 		conf        = config.New()
 		textTkdOids = []string{"SNMPv2-MIB::sysUpTime.0",
@@ -19,27 +18,36 @@ func GetOperStatus() {
 			"IF-MIB::ifOperStatus.9",
 			"EtherLike-MIB::dot3StatsFCSErrors.9",
 			"LLDP-MIB::lldpLocChassisId.0"}
+
 		textAguOids = []string{"SNMPv2-MIB::sysUpTime.0",
 			"SNMPv2-MIB::sysDescr.0",
 			"LLDP-MIB::lldpLocChassisId.0"}
+
+		operStatus model.OperStatus
 	)
-	tkdOids := convertMibToOid(conf.SnmpMibDir, textTkdOids)
+
+	tkdOids, err := convertTextOidToOid(conf.SnmpMibDir, textTkdOids)
+	if err != nil {
+		return operStatus, err
+	}
 	responseTkd, err := snmpRequest(conf, "172.16.95.193", tkdOids)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return operStatus, err
 	}
 
-	AguOids := convertMibToOid(conf.SnmpMibDir, textAguOids)
+	AguOids, err := convertTextOidToOid(conf.SnmpMibDir, textAguOids)
+	if err != nil {
+		return operStatus, err
+	}
+
 	responseAgu, err := snmpRequest(conf, "172.16.95.193", AguOids)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return operStatus, err
 	}
 
-	operStatus := model.MapOperStatusToStruct(responseTkd, responseAgu)
+	operStatus = model.MapOperStatusToStruct(responseTkd, responseAgu)
 
-	fmt.Println(operStatus)
+	return operStatus, nil
 }
 
 func snmpRequest(conf config.Config, ip string, oids []string) ([]interface{}, error) {
@@ -78,14 +86,14 @@ func snmpRequest(conf config.Config, ip string, oids []string) ([]interface{}, e
 	return response, nil
 }
 
-func convertMibToOid(dir string, textOids []string) []string {
+func convertTextOidToOid(dir string, textOids []string) ([]string, error) {
 	mib := smi.NewMIB(dir)
 	mib.Debug = true
 	var oids []string
 
 	err := mib.LoadModules("IF-MIB", "SNMPv2-MIB", "EtherLike-MIB", "LLDP-MIB")
 	if err != nil {
-		log.Fatal(err)
+		return oids, err
 	}
 
 	mib.VisitSymbols(func(sym *smi.Symbol, oid smi.OID) {
@@ -95,9 +103,9 @@ func convertMibToOid(dir string, textOids []string) []string {
 	for _, v := range textOids {
 		oid, err := mib.OID(v)
 		if err != nil {
-			log.Println(err)
+			return oids, err
 		}
 		oids = append(oids, oid.String())
 	}
-	return oids
+	return oids, nil
 }

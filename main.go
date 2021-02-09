@@ -1,18 +1,28 @@
 package main
 
 import (
+	"fmt"
+	"github.com/gorilla/mux"
+	"net/http"
 	"test/config"
-	"test/service"
+	"test/controller"
 )
 
-type SnmpResponse struct {
-	SysUpTime    string
-	SysDescr     string
-	ifOperStatus string
+type Conf struct {
+	Port      string `envconfig:"PORT" required:"true"`
+	Community string `envconfig:"COMMUNITY"`
+	MibDir    string `envconfig:"MIBDIR"`
+	IpAddress string `envconfig:"IP"`
 }
 
 func main() {
-	_ = config.New()
+	conf := config.New()
 
-	service.GetOperStatus()
+	r := mux.NewRouter()
+	r.HandleFunc("/operStatus", controller.GetOperStatus).Methods("POST")
+
+	fmt.Println("Service running on :" + conf.Port)
+	if err := http.ListenAndServe(":"+conf.Port, r); err != nil {
+		panic(err)
+	}
 }

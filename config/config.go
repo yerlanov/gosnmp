@@ -1,16 +1,19 @@
 package config
 
-import "github.com/kelseyhightower/envconfig"
+import (
+	"github.com/kelseyhightower/envconfig"
+)
 
 type Config struct {
+	Port string `envconfig:"APP_PORT" required:"true"`
 	SnmpConfig
 	DatabaseConfig
 }
 
 type SnmpConfig struct {
-	SnmpPort      string `envconfig:"PORT"`
-	SnmpCommunity string `envconfig:"COMMUNITY"`
-	SnmpMibDir    string `envconfig:"MIBDIR"`
+	SnmpPort      string `envconfig:"SNMP_PORT"`
+	SnmpCommunity string `envconfig:"SNMP_COMMUNITY"`
+	SnmpMibDir    string `envconfig:"SNMP_MIBDIR"`
 }
 
 type DatabaseConfig struct {
@@ -23,7 +26,7 @@ type DatabaseConfig struct {
 
 func New() Config {
 	var conf Config
-	err := envconfig.Process("APP", &conf)
+	err := envconfig.Process("APPs", &conf)
 	if err != nil {
 		panic(err)
 	}

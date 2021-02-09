@@ -16,6 +16,11 @@ type OperStatus struct {
 	MacAddressAgu    string
 }
 
+type SwitchStatus struct {
+	StatusAgu string
+	StatusTkd string
+}
+
 func MapOperStatusToStruct(tkd []interface{}, agu []interface{}) OperStatus {
 	return OperStatus{
 		UpTimeTkd:        strconv.Itoa(int(tkd[0].(uint32))),

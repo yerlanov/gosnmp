@@ -23,12 +23,9 @@ func GetOperStatusService(login string) (model.OperStatus, exception.Error) {
 	if err != nil {
 		return operStatus, exception.Error{ErrorType: exception.NotFound, ErrorMessage: err}
 	}
-	fmt.Println(client)
 
 	pingAgu := pingSwitch(client.IpAgu)
 	pingTkd := pingSwitch(client.IpTkd)
-	fmt.Println(pingAgu)
-	fmt.Println(pingTkd)
 
 	if pingAgu == "UP" {
 		textAguOids := []string{"SNMPv2-MIB::sysUpTime.0",
@@ -115,10 +112,6 @@ func convertTextOidToOid(dir string, textOids []string) ([]string, exception.Err
 		return oids, exception.Error{ErrorType: exception.OidConvertError, ErrorMessage: err}
 	}
 
-	mib.VisitSymbols(func(sym *smi.Symbol, oid smi.OID) {
-		fmt.Printf("%-40s %s\n", sym, oid)
-	})
-
 	for _, v := range textOids {
 		oid, err := mib.OID(v)
 		if err != nil {
@@ -130,11 +123,9 @@ func convertTextOidToOid(dir string, textOids []string) ([]string, exception.Err
 }
 
 func pingSwitch(ip string) string {
-	status, pingErr := ping.NewPinger(ip)
+	_, pingErr := ping.NewPinger(ip)
 	if pingErr != nil {
-		fmt.Println(pingErr)
 		return "DOWN"
 	}
-	fmt.Println(status)
 	return "UP"
 }

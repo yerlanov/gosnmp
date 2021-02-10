@@ -39,6 +39,8 @@ func GetClientByLogin(login string) (Client, error) {
 	if err != nil {
 		return client, err
 	}
+
+	client = model.ConvertToGoType()
 	return client, nil
 }
 

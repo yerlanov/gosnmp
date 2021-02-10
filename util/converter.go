@@ -21,8 +21,9 @@ func TranslateIfOperStatus(in interface{}) string {
 		return "NotPresent"
 	case 7:
 		return "LowerLayerDown"
+	default:
+		return ""
 	}
-	return ""
 }
 
 func ConvertDecimalToHexDecimal(in interface{}) string {

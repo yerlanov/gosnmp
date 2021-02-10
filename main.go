@@ -6,10 +6,13 @@ import (
 	"net/http"
 	"test/config"
 	"test/controller"
+	"test/database"
 )
 
 func main() {
 	conf := config.New()
+
+	database.ConnectDB()
 
 	r := mux.NewRouter()
 	r.HandleFunc("/operstatus", controller.GetOperStatus).Methods("POST")

@@ -28,6 +28,14 @@ func GetOperStatusService(login string) (model.OperStatus, exception.Error) {
 		operStatus               model.OperStatus
 		responseAgu, responseTkd []interface{}
 	)
+
+	client, err := model.GetClientByLogin("0013328282")
+	if err != nil {
+		return operStatus, exception.Error{ErrorType: exception.NOTFOUND, ErrorMessage: err}
+	}
+
+	fmt.Println(client)
+
 	ipTkd := "172.16.68.200"
 	ipAgu := "172.16.95.193"
 

@@ -5,23 +5,23 @@ import (
 )
 
 type Config struct {
-	Port string `envconfig:"APP_PORT" required:"true"`
+	Port string `envconfig:"FTTB_APP_PORT" required:"true"`
 	SnmpConfig
 	DatabaseConfig
 }
 
 type SnmpConfig struct {
-	SnmpPort      string `envconfig:"SNMP_PORT"`
-	SnmpCommunity string `envconfig:"SNMP_COMMUNITY"`
-	SnmpMibDir    string `envconfig:"SNMP_MIBDIR"`
+	SnmpPort      string `envconfig:"FTTB_SNMP_PORT"`
+	SnmpCommunity string `envconfig:"FTTB_SNMP_COMMUNITY"`
+	SnmpMibDir    string `envconfig:"FTTB_SNMP_MIBDIR"`
 }
 
 type DatabaseConfig struct {
-	DbHost     string `envconfig:"DB_HOST"`
-	DbPort     string `envconfig:"DB_PORT"`
-	DbUser     string `envconfig:"DB_USER"`
-	DbPassword string `envconfig:"DB_PASSWORD"`
-	DbDatabase string `envconfig:"DB_DATABASE"`
+	DbHost     string `envconfig:"FTTB_DB_HOST"`
+	DbPort     string `envconfig:"FTTB_DB_PORT"`
+	DbUser     string `envconfig:"FTTB_DB_USER"`
+	DbPassword string `envconfig:"FTTB_DB_PASSWORD"`
+	DbDatabase string `envconfig:"FTTB_DB_DATABASE"`
 }
 
 func New() Config {

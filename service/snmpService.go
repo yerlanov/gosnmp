@@ -129,9 +129,11 @@ func convertTextOidToOid(dir string, textOids []string) ([]string, exception.Err
 }
 
 func pingSwitch(ip string) string {
-	_, pingErr := ping.NewPinger(ip)
+	status, pingErr := ping.NewPinger(ip)
 	if pingErr != nil {
+		fmt.Println(pingErr)
 		return "DOWN"
 	}
+	fmt.Println(status)
 	return "UP"
 }

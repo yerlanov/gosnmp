@@ -15,6 +15,7 @@ type OperStatus struct {
 	MacAddressTkd    string
 	MacAddressAgu    string
 	SwitchStatus
+	Client
 }
 
 type SwitchStatus struct {
@@ -22,7 +23,7 @@ type SwitchStatus struct {
 	StatusTkd string
 }
 
-func MapOperStatusToStruct(tkd []interface{}, agu []interface{}) OperStatus {
+func MapOperStatusToStruct(tkd []interface{}, agu []interface{}, client Client) OperStatus {
 	var (
 		upTimeTkd        string
 		upTimeAgu        string
@@ -67,5 +68,6 @@ func MapOperStatusToStruct(tkd []interface{}, agu []interface{}) OperStatus {
 		ModelAgu:         modelAgu,
 		MacAddressAgu:    macAddressAgu,
 		SwitchStatus:     switchStatus,
+		Client:           client,
 	}
 }

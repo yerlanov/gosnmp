@@ -14,59 +14,54 @@ import (
 
 func GetOperStatusService(login string) (model.OperStatus, exception.Error) {
 	var (
-		conf        = config.New()
-		textTkdOids = []string{"SNMPv2-MIB::sysUpTime.0",
-			"SNMPv2-MIB::sysDescr.0",
-			"IF-MIB::ifOperStatus.9",
-			"EtherLike-MIB::dot3StatsFCSErrors.9",
-			"LLDP-MIB::lldpLocChassisId.0"}
-
-		textAguOids = []string{"SNMPv2-MIB::sysUpTime.0",
-			"SNMPv2-MIB::sysDescr.0",
-			"LLDP-MIB::lldpLocChassisId.0"}
-
+		conf                     = config.New()
 		operStatus               model.OperStatus
 		responseAgu, responseTkd []interface{}
 	)
 
-	client, err := model.GetClientByLogin("0013328282")
+	client, err := model.GetClientByLogin(login)
 	if err != nil {
 		return operStatus, exception.Error{ErrorType: exception.NOTFOUND, ErrorMessage: err}
 	}
 
-	fmt.Println(client)
-
-	ipTkd := "172.16.68.200"
-	ipAgu := "172.16.95.193"
-
-	pingAgu := pingSwitch(ipTkd)
-	pingTkd := pingSwitch(ipAgu)
+	pingAgu := pingSwitch(client.IpAgu)
+	pingTkd := pingSwitch(client.IpTkd)
 
 	if pingAgu == "UP" {
+		textAguOids := []string{"SNMPv2-MIB::sysUpTime.0",
+			"SNMPv2-MIB::sysDescr.0",
+			"LLDP-MIB::lldpLocChassisId.0"}
+
 		AguOids, err := convertTextOidToOid(conf.SnmpMibDir, textAguOids)
 		if err.ErrorMessage != nil {
 			return operStatus, err
 		}
 
-		responseAgu, err = snmpRequest(conf, ipAgu, AguOids)
+		responseAgu, err = snmpRequest(conf, client.IpAgu, AguOids)
 		if err.ErrorMessage != nil {
 			return operStatus, err
 		}
 	}
 
 	if pingTkd == "UP" {
+		textTkdOids := []string{"SNMPv2-MIB::sysUpTime.0",
+			"SNMPv2-MIB::sysDescr.0",
+			fmt.Sprintf("IF-MIB::ifOperStatus.%s", client.Port),
+			fmt.Sprintf("EtherLike-MIB::dot3StatsFCSErrors.%s", client.Port),
+			"LLDP-MIB::lldpLocChassisId.0"}
+
 		tkdOids, err := convertTextOidToOid(conf.SnmpMibDir, textTkdOids)
 		if err.ErrorMessage != nil {
 			return operStatus, err
 		}
 
-		responseTkd, err = snmpRequest(conf, ipTkd, tkdOids)
+		responseTkd, err = snmpRequest(conf, client.IpTkd, tkdOids)
 		if err.ErrorMessage != nil {
 			return operStatus, err
 		}
 	}
 
-	operStatus = model.MapOperStatusToStruct(responseTkd, responseAgu)
+	operStatus = model.MapOperStatusToStruct(responseTkd, responseAgu, client)
 
 	return operStatus, exception.Error{ErrorType: "", ErrorMessage: nil}
 }

@@ -26,6 +26,8 @@ func GetOperStatusService(login string) (model.OperStatus, exception.Error) {
 
 	pingAgu := pingSwitch(client.IpAgu)
 	pingTkd := pingSwitch(client.IpTkd)
+	fmt.Println(pingAgu)
+	fmt.Println(pingTkd)
 
 	if pingAgu == "UP" {
 		textAguOids := []string{"SNMPv2-MIB::sysUpTime.0",

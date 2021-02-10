@@ -6,12 +6,12 @@ import (
 )
 
 type Client struct {
-	ClientIp string
-	IpTkd    string
-	IpAgu    string
-	NameAgu  string
-	NameTkd  string
-	Port     string
+	ClientIp string `json:"client_ip"`
+	IpTkd    string `json:"ip"`
+	IpAgu    string `json:"ip_agu"`
+	NameAgu  string `json:"name_agu"`
+	NameTkd  string `json:"name_tkd"`
+	Port     string `json:"port"`
 }
 
 type ClientModel struct {

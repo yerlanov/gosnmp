@@ -6,21 +6,21 @@ import (
 )
 
 type OperStatus struct {
-	UpTimeTkd        string
-	UpTimeAgu        string
-	ModelTkd         string
-	ModelAgu         string
-	StatusClientPort string
-	ErrorClientPort  string
-	MacAddressTkd    string
-	MacAddressAgu    string
+	UpTimeTkd        string `json:"uptime_tkd"`
+	UpTimeAgu        string `json:"uptime_agu"`
+	ModelTkd         string `json:"model_tkd"`
+	ModelAgu         string `json:"model_agu"`
+	StatusClientPort string `json:"status_client_port"`
+	ErrorClientPort  string `json:"error_client_port"`
+	MacAddressTkd    string `json:"mac_address_tkd"`
+	MacAddressAgu    string `json:"mac_address_agu"`
 	SwitchStatus
 	Client
 }
 
 type SwitchStatus struct {
-	StatusAgu string
-	StatusTkd string
+	StatusAgu string `json:"status_agu"`
+	StatusTkd string `json:"status_tkd"`
 }
 
 func MapOperStatusToStruct(tkd []interface{}, agu []interface{}, client Client) OperStatus {

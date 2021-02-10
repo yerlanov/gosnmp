@@ -104,7 +104,6 @@ func snmpRequest(conf config.Config, ip string, oids []string) ([]interface{}, e
 
 func convertTextOidToOid(dir string, textOids []string) ([]string, exception.Error) {
 	mib := smi.NewMIB(dir)
-	mib.Debug = true
 	var oids []string
 
 	err := mib.LoadModules("IF-MIB", "SNMPv2-MIB", "EtherLike-MIB", "LLDP-MIB")

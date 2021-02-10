@@ -39,7 +39,7 @@ func MapOperStatusToStruct(tkd []interface{}, agu []interface{}) OperStatus {
 	if len(agu) == 3 {
 		upTimeAgu = strconv.Itoa(int(agu[0].(uint32)))
 		modelAgu = util.ConvertOctetStringToString(agu[1])
-		macAddressTkd = util.ConvertDecimalToHexDecimal(agu[2])
+		macAddressAgu = util.ConvertDecimalToHexDecimal(agu[2])
 		statusAgu = "UP"
 	}
 
@@ -49,7 +49,7 @@ func MapOperStatusToStruct(tkd []interface{}, agu []interface{}) OperStatus {
 		statusClientPort = util.TranslateIfOperStatus(tkd[2])
 		errorClientPort = strconv.Itoa(int(tkd[3].(uint)))
 		macAddressTkd = util.ConvertDecimalToHexDecimal(tkd[4])
-		statusAgu = "UP"
+		statusTkd = "UP"
 	}
 
 	switchStatus := SwitchStatus{

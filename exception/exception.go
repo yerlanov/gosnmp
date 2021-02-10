@@ -8,7 +8,7 @@ const (
 	SnmpConnectError = "SNMP_CONNECT_ERROR"
 	SnmpGetError     = "SNMP_GET_ERROR"
 	DecodeError      = "DECODE_ERROR"
-	NOTFOUND         = "NOT_FOUND"
+	NotFound         = "NOT_FOUND"
 )
 
 type Error struct {

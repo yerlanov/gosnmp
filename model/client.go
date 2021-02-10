@@ -2,7 +2,6 @@ package model
 
 import (
 	"database/sql"
-	"fmt"
 	"test/database"
 )
 
@@ -40,12 +39,6 @@ func GetClientByLogin(login string) (Client, error) {
 	if err != nil {
 		return client, err
 	}
-
-	client = model.ConvertToGoType()
-	if (Client{}) == client {
-		return client, fmt.Errorf("CLIENT_NOT_FOUND")
-	}
-
 	return client, nil
 }
 

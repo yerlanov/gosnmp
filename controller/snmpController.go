@@ -34,6 +34,8 @@ func WriteError(w http.ResponseWriter, r *http.Request, error exception.Error) {
 	switch error.ErrorType {
 	case exception.DecodeError:
 		code = http.StatusBadRequest
+	case exception.NotFound:
+		code = http.StatusNotFound
 	default:
 		code = http.StatusInternalServerError
 	}

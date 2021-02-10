@@ -21,7 +21,7 @@ func GetOperStatusService(login string) (model.OperStatus, exception.Error) {
 
 	client, err := model.GetClientByLogin(login)
 	if err != nil {
-		return operStatus, exception.Error{ErrorType: exception.NOTFOUND, ErrorMessage: err}
+		return operStatus, exception.Error{ErrorType: exception.NotFound, ErrorMessage: err}
 	}
 
 	pingAgu := pingSwitch(client.IpAgu)

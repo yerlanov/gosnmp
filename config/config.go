@@ -11,17 +11,17 @@ type Config struct {
 }
 
 type SnmpConfig struct {
-	SnmpPort      string `envconfig:"FTTB_SNMP_PORT"`
-	SnmpCommunity string `envconfig:"FTTB_SNMP_COMMUNITY"`
-	SnmpMibDir    string `envconfig:"FTTB_SNMP_MIBDIR"`
+	SnmpPort      string `envconfig:"FTTB_SNMP_PORT" required:"true"`
+	SnmpCommunity string `envconfig:"FTTB_SNMP_COMMUNITY" required:"true"`
+	SnmpMibDir    string `envconfig:"FTTB_SNMP_MIBDIR" required:"true"`
 }
 
 type DatabaseConfig struct {
-	DbHost     string `envconfig:"FTTB_DB_HOST"`
-	DbPort     string `envconfig:"FTTB_DB_PORT"`
-	DbUser     string `envconfig:"FTTB_DB_USER"`
-	DbPassword string `envconfig:"FTTB_DB_PASSWORD"`
-	DbDatabase string `envconfig:"FTTB_DB_DATABASE"`
+	DbHost     string `envconfig:"FTTB_DB_HOST" required:"true"`
+	DbPort     string `envconfig:"FTTB_DB_PORT" required:"true"`
+	DbUser     string `envconfig:"FTTB_DB_USER" required:"true"`
+	DbPassword string `envconfig:"FTTB_DB_PASSWORD" required:"true"`
+	DbDatabase string `envconfig:"FTTB_DB_DATABASE" required:"true"`
 }
 
 func New() Config {
